@@ -12,4 +12,4 @@ services:
       - FLASK_APP=server/app.py
   npm:
     image: arielramirez/hidive-npm:latest
-    command: "npm run start"
+    command: "npm run build"
