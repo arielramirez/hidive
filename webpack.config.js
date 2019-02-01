@@ -1,17 +1,18 @@
 const webpack = require('webpack');
 const config = {
-    entry:  __dirname + '/static/js/index.jsx',
+    entry:  __dirname + '/app/static/js/index.jsx',
     output: {
-        path: __dirname + '/static/dist',
+        path: __dirname + '/app/static/dist',
         filename: 'bundle.js',
     },
     resolveLoader: {
-        modules: [__dirname + '/static/node_modules'],
+        modules: [__dirname + '/app/static/node_modules'],
     },
     resolve: {
-        modules: [__dirname + '/static/node_modules'],
+        modules: [__dirname + '/app/static/node_modules'],
         extensions: ['.js', '.jsx', '.css']
     },
+    devtool: '#eval-source-map',
     module: {
       rules: [
         {
