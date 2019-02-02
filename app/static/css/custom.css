@@ -2,18 +2,64 @@
 Written by Ariel Ramirez. Custom style changes needed for additional animations on reverse-engineer HIDIVE homepage
 **/
 
+
+/** TRANSITIONS AND ANIMATIONS **/
 .collapsible {
   -webkit-transition: all 1s ease-in-out;
   -moz-transition: all 1s ease-in-out;
   -o-transition: all 1s ease-in-out;
   transition: all 1s ease-in-out;
   position: relative;
-  /* -webkit-transition: height 1s ease-in-out;
-  -moz-transition: height 1s ease-in-out;
-  -o-transition: height 1s ease-in-out;
-  transition: height 1s ease-in-out; */
 }
-/* 
-.collapsed {
-  height: 0
-} */
+
+/** SLIDER CUSTOMIZATIONS **/
+.carousel .slick-arrow {
+  top: calc(50% - 40px);
+}
+
+.section .slick-arrow {
+  top: 25%;
+}
+
+.slick-arrow {
+  width: 40px !important;
+  position: absolute;
+  z-index: 1000;
+  font-size: 5em;
+  color: white;
+  cursor: pointer;
+}
+
+.slick-slide {
+  margin: 0 !important;
+  height: auto;
+}
+
+.section .hidive-slick-prev {
+  left: -10px;
+}
+
+.section .hidive-slick-next {
+  right: -30px;
+}
+
+.carousel .hidive-slick-prev {
+  left: 15px;
+}
+
+.carousel .hidive-slick-next {
+  right: 0;
+}
+
+.carousel .slider-link {
+  width: 1140px !important;
+}
+
+.fa-icon-shadow {
+  text-shadow: 3px 3px 8px #272634;
+}
+
+.section .cell {
+  width: auto !important;
+  display: block !important;
+} 

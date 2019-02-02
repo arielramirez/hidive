@@ -19,14 +19,16 @@ class FullWidthBanner extends React.Component {
   render() {
     var hide_ad =this.state.hide_ad === this.hide_ad_code 
     return ( 
-      <div ref={this.adDiv} id="marketApp" className={"col-xs-12 tb-padding-15 animated fadeIn collapsible " + (hide_ad ? 'collapsed hidden' : '')}>
-        <div className="banner-img clearfix" style={{backgroundColor: 'black'}}>
-          <button type="button" className="close" onClick={this.closeAd.bind(this)} aria-label="Close">
-            <span aria-hidden="true"><i className="fa fa-times" aria-hidden="true"></i></span>
-          </button>
-          <a href={this.props.link}>
-            <img className="img-responsive hidden-xs" src={this.props.img_url}/>
-          </a>
+      <div className="clearfix">
+        <div ref={this.adDiv} id="marketApp" className={"col-xs-12 tb-padding-15 animated fadeIn collapsible " + (hide_ad ? 'collapsed hidden' : '')}>
+          <div className="banner-img clearfix" style={{backgroundColor: 'black'}}>
+            <button type="button" className="close" onClick={this.closeAd.bind(this)} aria-label="Close">
+              <span aria-hidden="true"><i className="fa fa-times" aria-hidden="true"></i></span>
+            </button>
+            <a href={this.props.link}>
+              <img className="img-responsive hidden-xs" src={this.props.img_url}/>
+            </a>
+          </div>
         </div>
       </div>
     )

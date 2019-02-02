@@ -1,6 +1,47 @@
 import React from "react";
 
 class TopNav extends React.Component {
+  constructor(props) {
+    super(props);
+    // needed for menu functionality
+    this.accountMenu = React.createRef()
+    this.externalClickHandler = this.hideMenuOnExternalClick.bind(this)
+    this.state = {
+      show_menu: false
+    };
+  }
+  toggleMenu(evt) {
+    if (evt) {
+      evt.stopPropagation()
+    }
+    if (!this.state.show_menu) {
+      // adapted from https://www.blustemy.io/detecting-a-click-outside-an-element-in-javascript/
+      //identifying click outside menu
+      // this is needed to close the menu when user clicks outside of menu element
+      document.addEventListener("click", this.externalClickHandler)
+    }
+    else {
+      //stop listening for click when menu is closed
+      document.removeEventListener("click", this.externalClickHandler)
+    }
+    this.setState({ show_menu: !this.state.show_menu })
+  }
+  hideMenuOnExternalClick(evt) {
+    const flyoutElement = this.accountMenu.current
+    let targetElement = evt.target; // clicked element
+
+    do {
+        if (targetElement == flyoutElement) {
+            // This is a click inside. Do nothing, just return.
+            return;
+        }
+        // Go up the DOM
+        targetElement = targetElement.parentNode;
+    } while (targetElement);
+
+    // This is a click outside, so close the menu
+    this.toggleMenu()
+  }
   render() {
     return (
       <nav className="navbar navbar-fixed-top">
@@ -72,13 +113,13 @@ class TopNav extends React.Component {
                     </li>
                     <li className="">
                       <div className="dropdown">
-                        <a href="javascript:void(0);" className="dropdown-toggle" id="dropdownMenu12" data-toggle="dropdown">
+                        <a href="javascript:void(0);" onClick={this.toggleMenu.bind(this)} className="dropdown-toggle" id="dropdownMenu12" data-toggle="dropdown">
                           <span className="fa fa-user" style={{fontSize: '2em'}} title="My Account"></span>
                         </a>
-                        <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu12">
-                          <li><a href="/account/login"><i className="fa fa-sign-in fa-fw"></i> Log In</a></li>
+                        <ul ref={this.accountMenu} className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu12" style={{display: this.state.show_menu ? 'initial' : 'none'}}>
+                          <li><a href="https://www.hidive.com/account/login"><i className="fa fa-sign-in fa-fw"></i> Log In</a></li>
                           <li><hr className="style1" /></li>
-                          <li><a href="//help.hidive.com/" target="_blank"><i className="fa fa-question fa-fw"></i> Help Center</a></li>
+                          <li><a href="https://help.hidive.com/" target="_blank"><i className="fa fa-question fa-fw"></i> Help Center</a></li>
                         </ul>
                       </div>
                     </li>

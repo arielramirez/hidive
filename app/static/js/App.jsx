@@ -1,7 +1,9 @@
 import React from "react";
-import TopNav from "./TopNav"
-import Footer from "./Footer"
-import FullWidthBanner from "./FullWidthBanner"
+import TopNav from "./TopNav";
+import Footer from "./Footer";
+import FullWidthBanner from "./FullWidthBanner";
+import FeaturedSlider from "./FeaturedSlider";
+import HidiveSlider from "./HidiveSlider";
 
 export default class App extends React.Component {
   render() {
@@ -16,12 +18,15 @@ export default class App extends React.Component {
 
 class ContentContainer extends React.Component {
   render() {
+    var temp = <img style={{maxWidth: '100%', zIndex: '2', position: 'relative'}} src="static/images/HIDIVE_HOMEcarousel_Winter2019_PastelMemories.gif" />
     return (
         <div className="container-fluid">
           <div className="body-bg-color top-page-offset">
             <FullWidthBanner img_url="static/images/HIDIVE_GlobalBanner_Website_XboxOne_1110x76_2.jpg" link="https://www.hidive.com/news#cbp=/news/2018/10/17/hidive-launches-on-xbox-one" collapsible={true}/>
-            <img style={{maxWidth: '100%', zIndex: '2', position: 'relative'}} src="static/images/HIDIVE_HOMEcarousel_Winter2019_PastelMemories.gif" />
-            <VideoSliders />
+            <FeaturedSlider />
+            
+            <ContentSections />
+
             <Footer />
           </div>
         </div>
@@ -29,36 +34,74 @@ class ContentContainer extends React.Component {
   }
 }
 
-
-// TODO: largeSlider
-
-class VideoSliders extends React.Component {
+class ContentSections extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sliders: null
+      sliderData: null
     };
   }
-  setSliderData(json) {
-    console.log('got the data!')
-    console.log(json)
-  }
-  render() {
+  componentDidMount() {
     var json = fetch('static/json/dashboard.json')
     .then(response => response.json())
-    .then(json => this.setSliderData(json));
+    .then(json => this.setState({sliderData: json.Data}));
+  }
+  render() {
+    console.log(this.state.sliderData)
+
+    var rows = this.state.sliderData 
+      ? this.state.sliderData.TitleRows.map( function(row, i) {
+        return (
+          <div key={`${row.Name.replace(/\W/g, '')}_${i}`} className="section">
+            <h1>{row.Name}</h1>
+            <ContentSlider slide_data={row.Titles} />
+          </div>)
+      }) 
+      : null
 
     return (
-      <div>Here's a slider!</div>
+      <div>
+        {rows}
+      </div>
     )
   }
 }
 
-// todo: implement slider functionality basic, then large
-class Slider extends React.Component {
+
+class ContentSlider extends React.Component {
+  componentDidMount() {
+
+  }
   render() {
+    var settings = {
+      className: "title-slider",
+      slidesToShow: 5,
+      slidesToScroll: 5,
+      lazyLoad: true
+    };
+
+    var slide_html = function(obj) {
+      return (
+        <div className="cell slide">
+          <div className="hitbox" key={obj.Id}>
+            <div className="arrow_box">
+            </div>
+          </div>
+          <div className="slider-default-img default-img">
+            <img src={obj.RokuHDArtUrl} className="img-responsive animated fadeIn" />
+          </div>
+        </div>
+        )
+    }
+
+
+
     return (
-      <div>Slider component</div>
+      this.props.slide_data ? 
+        <HidiveSlider settings={settings}>
+          {this.props.slide_data.slice(0,10).map(slide_html)}
+        </ HidiveSlider>
+      : <span />
     )
   }
 }
