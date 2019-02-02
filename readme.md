@@ -16,16 +16,23 @@
 - Search input animation
 - Search string matches (fuzzy)
 
-## If time allows
+## If Time Allows. . .
 Known bugs
+- Full width slider only supports desktop
+- slider nav arrows should be relative (re-position with browser, needs to be a percentage of total height)
 - Fonts are hunting in /fonts, need to serve /fonts from /static/fonts
 - Slider nav incorrect (fixed by fonts. . .)
 - Remove 'free' from top nav (website was updated . . .)
-- full-width, 
+- implement glyphicons (right/left arrows in slider, video player icon, bottom arrow icon for slider hover dropdown)
 
 
-
-Above and beyond
-- Welcome landing page
-- different content slider nav settings on mobile (other mobile changes?)
-- investigate more accurate nav icons (currently using font-awesome, uses glyphicons)
+## Features Missing from Implementation
+- No data available
+  - Badges on content sliders
+  - Icons next to content slider titles
+  - Image rotation on hover in content slider
+  - Content slider dropdown - Content within Episode List and You Might Like nav options
+- Unsure if necessary
+  - Welcome landing page
+  - mobile version
+  - ARIA support

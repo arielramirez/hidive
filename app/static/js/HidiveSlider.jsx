@@ -35,7 +35,7 @@ export default class HidiveSlider extends React.Component {
       swipeToSlide: true,
       nextArrow: <NextArrow />,
       prevArrow: <PrevArrow />,
-    };
+    };    
 
     return this.props.children ? (
         <Slider {...settings}>
