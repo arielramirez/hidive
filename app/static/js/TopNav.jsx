@@ -1,6 +1,7 @@
-import React from "react";
+import React from "react"
+import Select from "react-select"
 
-class TopNav extends React.Component {
+export default class TopNav extends React.Component {
   constructor(props) {
     super(props);
     // needed for menu functionality
@@ -27,20 +28,8 @@ class TopNav extends React.Component {
     this.setState({ show_menu: !this.state.show_menu })
   }
   hideMenuOnExternalClick(evt) {
-    const flyoutElement = this.accountMenu.current
-    let targetElement = evt.target; // clicked element
-
-    do {
-        if (targetElement == flyoutElement) {
-            // This is a click inside. Do nothing, just return.
-            return;
-        }
-        // Go up the DOM
-        targetElement = targetElement.parentNode;
-    } while (targetElement);
-
-    // This is a click outside, so close the menu
-    this.toggleMenu()
+    //closes menu if click occurs not on menu component
+    executeFunctionIfClickNotOnElement(evt, this.accountMenu.current, this.toggleMenu.bind(this))
   }
   render() {
     return (
@@ -66,11 +55,6 @@ class TopNav extends React.Component {
                   <li>
                     <a href="https://www.hidive.com/movies" className="nav">Movies</a>
                   </li>
-                  <li>
-                    <a href="https://www.hidive.com/free-episodes" className="nav free" style={{fontWeight:'700'}}>
-                      <span className="plaque free">FREE!</span>
-                    </a>
-                  </li>
                   <li> | </li>
                   <li className="">
                     <a href="https://www.hidive.com/jan-2019-release-schedule" className="nav">Schedule</a>
@@ -93,23 +77,7 @@ class TopNav extends React.Component {
                       </a>
                     </li>
                     <li style={{position: 'relative'}}>
-                      <div id="topSearch">
-                        <form className="form-group-sm search-form" id="nav-search" method="get" action="/search" role="search">
-                          <span className="twitter-typeahead" style={{position: 'relative', display: 'inline-block'}}>
-                            <input type="text" name="q" className="typeahead form-control input-sm tt-input" placeholder="Search Titles..." dir="auto" style={{position: 'relative', verticalAlign: 'top'}}></input>
-                            <pre aria-hidden="true" style={{position: 'absolute', visibility: 'hidden', whiteApace: 'pre', fontFamily: 'Roboto, sans-serif', fontSize: '14px', fontStyle: 'normal', fontVariant: 'normal', fontWeight: 400, wordSpacing: '0px', letterSpacing: '0px',  textIndent: '0px', textRendering: 'auto', textTransform: 'none'}}></pre>
-                            <div className="tt-menu" style={{position: 'absolute', top: '100%', left: '0px', zIndex: '100', display: 'none'}}>
-                              <div className="tt-dataset tt-dataset-search"></div>
-                            </div>
-                          </span>
-                          <button type="submit" className="btn btn-default btn-sm" id="search-btn">
-                            <span className="fa fa-search"></span>
-                          </button>
-                        </form>
-                      </div>
-                      <a href="javascript:void(0);" id="searchIcon">
-                        <span className="fa fa-search" style={{fontSize: '2em'}}></span>
-                      </a>
+                      <TopNavSearch />
                     </li>
                     <li className="">
                       <div className="dropdown">
@@ -135,4 +103,187 @@ class TopNav extends React.Component {
   }
 }
 
-export default TopNav;
+class TopNavSearch extends React.Component {
+  constructor(props) {
+    super(props);    
+    this.search_url = "https://www.hidive.com/search?q="
+    this.searchBar = React.createRef()
+    this.externalClickHandler = this.collapseOnExternalClick.bind(this)
+    this.state = {
+      expanded: false,        //used to expand/collapse text area on icon click
+      search_options: null,
+      search_text: '',
+      menu_is_open: false,
+      placeholder_text: false
+    };
+  }
+  openSearchInput() {
+    if(!this.state.expanded) {
+      this.setState({expanded: true})
+      var input = document.getElementById('react-select-2-input')
+      input.focus()
+      setTimeout(function() {
+        //placeholder text doesn't look wonky during animation, so setting it after animation finishes
+        this.setState({placeholder_text: 'Search Titles...'})
+        document.addEventListener("click", this.externalClickHandler)
+      }.bind(this), 500)
+    }
+  }
+  closeSearchInput() {
+    if (this.state.expanded) {
+      document.removeEventListener("click", this.externalClickHandler)
+      this.setState({expanded: false, placeholder_text: ''})
+    }
+  }
+  collapseOnExternalClick(evt) {
+    //colapsing the search bar if user clicks outside of seach area
+    executeFunctionIfClickNotOnElement(evt, this.searchBar.current, this.closeSearchInput.bind(this))
+  }
+  loadSearchOptions() {
+    fetch('static/json/dashboard.json')
+    .then(response => response.json())
+    .then(json => this.setState({search_options: this.extractContentNamesFromJSON(json.Data)}));
+  }
+  extractContentNamesFromJSON(data) {
+    //extracting arrays with titles from json data
+    var titles_arrays = data.TitleRows.map(function(title_row) {
+      return title_row.Titles.map(function(title) {
+        return title.Name
+      })
+    })
+
+    console.log(titles_arrays)
+    // converting to single array
+    var titles = [].concat(...titles_arrays)
+    // removing duplicates
+    var unique_titles = [... new Set(titles)]
+
+    //returning in correct format
+    return unique_titles.sort().map(function(title, i) {
+      // using the title as a url component to allow search as a query param on search page
+      return {value: encodeURIComponent(title), label: title}
+    })
+  }
+  handleInputChange(text) {
+    var state_changes = {}
+    if (text.length > 2) {
+      state_changes.menu_is_open = true
+    }
+    console.log(text)
+
+    this.setState({...state_changes, search_text: text})
+  }
+  checkForSearch(evt) {
+    if (evt.key == 'Enter') {
+      evt.stopPropagation()
+      this.search(this.state.search_text)
+    }
+  }
+  search(search_term) {
+    console.log(search_term)
+    var term = search_term ? search_term : this.state.search_text
+    window.location.href = this.search_url + term
+  }
+  menuItemSelected(menu_item) {
+    this.search(menu_item.value)
+  }
+  hideMenu() {
+    this.setState({ menu_is_open: false });
+  }
+  render() {
+
+    const customStyles = function() {
+      // var bg_color='#222325'
+      // var border='1px solid #555'
+      return {
+        control: (base, state) => ({
+          ...base,
+          backgroundColor: '#222325',
+          border: '1px solid #555',
+          borderRadius: '5px',
+          color: 'white',
+          textAlign: 'left',
+          boxShadow: '4px 4px 6px rgba(0,0,0,.5)',
+          maxHeight: '200px',
+          overflowY: 'auto',
+          "&:hover": {
+            border: '1px solid #555',
+          }
+        }),
+        input: base => ({
+          ...base,
+          margin: 0,
+          padding: 0,
+          color: 'white'
+        }),
+        menu: base => ({
+          ...base,
+          backgroundColor: "rgba(0, 0, 0, .9)",
+          color: 'hsl(0,0%,50%)',
+          textAlign: 'left',
+          borderRadius: 0,
+          marginTop: 0
+        }),
+        menuList: base => ({
+          ...base,
+          padding: 0,
+          backgroundColor: "rgba(0, 0, 0, .9)",
+          color: 'hsl(0,0%,50%)',
+          textAlign: 'left',
+        }),
+        option: base => ({
+          ...base,
+          backgroundColor: "rgba(0, 0, 0, .9)",
+          color: 'hsl(0,0%,50%)',
+          textAlign: 'left',   
+          "&:hover": {
+            backgroundColor: 'hsl(0,0%,50%)',
+            color: 'white',
+          },
+        }),
+        noOptionsMessage: base => ({
+          ...base,
+          color: "white",
+          textAlign: 'left'
+        })
+      }
+    };
+
+    //this isn't working for some reason
+    const DropdownIndicator = function(props){
+      console.log(props)
+      return (
+        <components.DropdownIndicator {...props}>
+          <a style={{display: 'block'}} onClick={this.search.bind(this)}> 
+            <i className="fa fa-search"></i>
+          </a>
+        </components.DropdownIndicator>
+      );
+    }.bind(this);
+    
+
+    return (
+      <div ref={this.searchBar}>
+        <div id='topSearch' style={{ top: '-5px'}} className={"search-expandable " + (this.state.expanded ? "search-expanded" : "search-collapsed")}  >
+          <Select 
+              name="topNavSearchBar" 
+              options={this.state.search_options ? this.state.search_options : this.loadSearchOptions()} 
+              styles={customStyles()} 
+              DropdownIndicatorComponent={DropdownIndicator}
+              placeholder={this.state.placeholder_text} 
+              className={this.state.expanded ? '' : 'hidden'}
+              onInputChange={this.handleInputChange.bind(this)}
+              onKeyDown={this.checkForSearch.bind(this)}
+              onChange={this.menuItemSelected.bind(this)}
+              onBlur={this.hideMenu.bind(this)}
+              menuIsOpen={this.state.is_menu_open}
+              noOptionsMessage={() => 'No matching titles...'}
+          /> 
+        </div>
+        <a href="javascript:void(0);" id="searchIcon" onClick={this.openSearchInput.bind(this)}>
+          <span className="fa fa-search" style={{fontSize: '2em'}}></span>
+        </a>
+      </div>
+    )
+  }
+}

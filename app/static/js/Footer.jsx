@@ -1,6 +1,16 @@
-import React from "react";
+import React from "react"
+import ContactUsModal from "./ContactUsModal"
 
-class Footer extends React.Component {
+export default class Footer extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      open_modal: false
+    }
+  }
+  toggleContactUsModal() {
+    this.setState({open_modal: !this.state.open_modal})
+  }
   render() {
     return (
       <footer className="tb-padding-10 overflow-auto">
@@ -9,7 +19,7 @@ class Footer extends React.Component {
             <li><a id="footerSignup" href="https://www.hidive.com/signup">Sign Up</a></li>
             <li><a href="https://help.hidive.com/" target="_blank">Help Center</a></li>
             <li><a href="https://www.hidive.com/about">About Us</a></li>
-            <li><a id="contactUs" href="javascript:void(0);">Contact Us</a></li>
+            <li><a id="contactUs" href="javascript:void(0);" onClick={this.toggleContactUsModal.bind(this)}>Contact Us</a></li>
             <li><a href="https://www.hidive.com/careers">Careers</a></li>
             <li><a href="https://www.hidive.com/privacy-policy">Privacy Policy</a></li>
             <li><a href="https://www.hidive.com/terms-of-use">Terms of Use</a></li>
@@ -26,9 +36,8 @@ class Footer extends React.Component {
           <a className="social-icons youtube2" id="youtube2_footer_anchor" href="//www.youtube.com/channel/UCeFzTMpr7ik6oU5MT_YAYzg" target="_blank"><i className="fa-youtube fa icon-1x"></i></a>
           <a className="social-icons instagram2" id="instagram2_footer_anchor" href="//www.instagram.com/HIDIVEofficial" target="_blank"><i className="fa-instagram fa icon-1x"></i></a>
         </div>
+        <ContactUsModal open={this.state.open_modal} onClose={this.toggleContactUsModal.bind(this)} />
       </footer>
     )
   }
 }
-
-export default Footer;

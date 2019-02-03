@@ -96,3 +96,21 @@ function collapseSection(element) {
     var strTime = hours + ':' + minutes + ' ' + ampm;
     return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
   }
+
+
+  function executeFunctionIfClickNotOnElement(evt, elem, func) {
+    const flyoutElement = elem
+    let targetElement = evt.target; // clicked element
+
+    do {
+        if (targetElement == flyoutElement) {
+            // This is a click inside. Do nothing, just return.
+            return;
+        }
+        // Go up the DOM
+        targetElement = targetElement.parentNode;
+    } while (targetElement);
+
+    // This is a click outside, so close the menu
+    func()
+  }

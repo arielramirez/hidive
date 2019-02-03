@@ -28,10 +28,12 @@
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
+    "bootstrap": "^4.2.1",
     "glyphicons": "^0.2.0",
     "react": "^16.7.0",
     "react-carousel": "^4.3.0",
     "react-dom": "^16.7.0",
+    "react-select": "^2.3.0",
     "react-slick": "^0.23.2"
   }
 }

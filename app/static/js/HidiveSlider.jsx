@@ -23,7 +23,9 @@ class PrevArrow extends React.Component {
 }
 
 export default class HidiveSlider extends React.Component {
-
+  afterChangeHook(current) {
+    this.props.afterChangeHook ? this.props.afterChangeHook(current) : null
+  }
   render() {
     // default configuuration for hidive-styled slider
     var settings = {
@@ -35,6 +37,7 @@ export default class HidiveSlider extends React.Component {
       swipeToSlide: true,
       nextArrow: <NextArrow />,
       prevArrow: <PrevArrow />,
+      afterChange: this.afterChangeHook.bind(this)
     };    
 
     return this.props.children ? (

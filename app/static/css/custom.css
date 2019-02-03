@@ -25,7 +25,7 @@ Written by Ariel Ramirez. Custom style changes needed for additional animations 
   width: 40px !important;
   position: absolute;
   z-index: 1000;
-  font-size: 5em;
+  font-size: 4.5em;
   color: white;
   cursor: pointer;
 }
@@ -36,7 +36,7 @@ Written by Ariel Ramirez. Custom style changes needed for additional animations 
 }
 
 .section .hidive-slick-prev {
-  left: -10px;
+  left: -13px;
 }
 
 .section .hidive-slick-next {
@@ -44,11 +44,11 @@ Written by Ariel Ramirez. Custom style changes needed for additional animations 
 }
 
 .carousel .hidive-slick-prev {
-  left: 15px;
+  left: 10px;
 }
 
 .carousel .hidive-slick-next {
-  right: 0;
+  right: -5px;
 }
 
 .carousel .slider-link {
@@ -71,4 +71,21 @@ Written by Ariel Ramirez. Custom style changes needed for additional animations 
 /* * Content Slider Dropdown **/
 .player .fa {
   font-size: 5m !important;
+}
+
+
+/* Top Nav Search Bar */
+.search-expandable {
+  -webkit-transition: width 0.5s ease-in-out;
+  -moz-transition: width 0.5s ease-in-out;
+  -o-transition: width 0.5s ease-in-out;
+  transition: width 0.5s ease-in-out;
+}
+
+.search-collapsed {
+  width: 60px;
+}
+
+.search-expanded {
+  width: 250px !important;
 }
