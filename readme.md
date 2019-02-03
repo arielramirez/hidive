@@ -42,7 +42,7 @@ You can view this site at http://34.233.253.243/
   - Host static folder directly from NGINX
   - Reorganize styling, get rid of redundancies between custom.css and hidive.css
     - TECHDEBT: remove the nasty note in VideoSlide regarding the class name GREEN - just change the nonsense class name to something sensical
-  - Security audit
+
 
 ## Implementation Notes
 - There were  characters in the JSON data substituting the apostrophes. I manually converted them to apostrophes.
