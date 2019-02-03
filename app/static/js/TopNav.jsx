@@ -152,7 +152,6 @@ class TopNavSearch extends React.Component {
       })
     })
 
-    console.log(titles_arrays)
     // converting to single array
     var titles = [].concat(...titles_arrays)
     // removing duplicates
@@ -169,8 +168,6 @@ class TopNavSearch extends React.Component {
     if (text.length > 2) {
       state_changes.menu_is_open = true
     }
-    console.log(text)
-
     this.setState({...state_changes, search_text: text})
   }
   checkForSearch(evt) {
@@ -180,7 +177,6 @@ class TopNavSearch extends React.Component {
     }
   }
   search(search_term) {
-    console.log(search_term)
     var term = search_term ? search_term : this.state.search_text
     window.location.href = this.search_url + term
   }
@@ -249,7 +245,6 @@ class TopNavSearch extends React.Component {
 
     //this isn't working for some reason
     const DropdownIndicator = function(props){
-      console.log(props)
       return (
         <components.DropdownIndicator {...props}>
           <a style={{display: 'block'}} onClick={this.search.bind(this)}> 
