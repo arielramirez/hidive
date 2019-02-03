@@ -193,8 +193,6 @@ class TopNavSearch extends React.Component {
   render() {
 
     const customStyles = function() {
-      // var bg_color='#222325'
-      // var border='1px solid #555'
       return {
         control: (base, state) => ({
           ...base,

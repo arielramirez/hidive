@@ -32,14 +32,10 @@ function getCookie( name ) {
 // Animation code adapted from https://css-tricks.com/using-css-transitions-auto-dimensions/
 
 function collapseSection(element) {
-    console.log(element)
     // get the height of the element's inner content, regardless of its actual size
     var sectionHeight = element.scrollHeight;
     
     // temporarily disable all css transitions
-    console.log(element.style)
-    console.log(element)
-    console.log(element.style.transition)
     var elementTransition = element.style.transition
     element.style.transition = '';
     
