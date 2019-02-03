@@ -68,8 +68,7 @@ Written by Ariel Ramirez. Custom style changes needed for additional animations 
   display: none
 }
 
-/* * Content Slider Dropdown *
-.title-slider .arrow_box.greeb {
-  transition: border 0.7s ease;
-  border: 3px solid rgba(0,174,240,1)
-} */
+/* * Content Slider Dropdown **/
+.player .fa {
+  font-size: 5m !important;
+}

@@ -36,23 +36,29 @@ class ContentSections extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      sliderData: null
+      slider_data: null,
+      selected_id: null
     };
   }
   componentDidMount() {
     var json = fetch('static/json/dashboard.json')
     .then(response => response.json())
-    .then(json => this.setState({sliderData: json.Data}));
+    .then(json => this.setState({slider_data: json.Data}));
+  }
+  updateSelectedId(id) {
+    //if slide was updated, send the new selected slide to all sliders
+    //This provide the functionality such that if a slide from another row is open, it will close when a slide from another row is selected.
+    this.setState({selected_id: id})
   }
   render() {
-    var rows = this.state.sliderData 
-      ? this.state.sliderData.TitleRows.slice(0,1).map( function(row, i) {
+    var rows = this.state.slider_data 
+      ? this.state.slider_data.TitleRows.slice(0,2).map( function(row, i) {
         return (
           <div key={`${row.Name.replace(/\W/g, '')}_${i}`} className="section">
             <h1>{row.Name}</h1>
-            <ContentSlider slide_data={row.Titles} />
+            <ContentSlider slide_data={row.Titles} selected_id={this.state.selected_id} updateSelectedId={this.updateSelectedId.bind(this)} />
           </div>)
-      }) 
+      }.bind(this)) 
       : null
 
     return (
@@ -69,18 +75,33 @@ class ContentSlider extends React.Component {
     super(props);
     this.num_slides = 5
     this.state = {
-      selected_show_id: null
+      selected_id: null
     }
   }
-  updateSelectedShowId(id) {
-    this.setState({selected_show_id: id})
+  componentWillReceiveProps(nextProps) {
+    // check if a slide was selected in another slider
+    if (this.props.selected_id != nextProps.selected_id)
+      this.setState({ selected_id: nextProps.selected_id });  
   }
-  getSelectedShowData() {
-    var data_list = this.state.selected_show_id ? 
-     this.props.slide_data.filter(function(obj) {return obj.Id == this.state.selected_show_id}.bind(this)) : null
-    if (data_list && data_list.length != 1)
-      throw "Invalid selected show id selected"
-    return data_list ? data_list[0] : data_list
+  updateSelectedId(id) {
+    // check if a slide was selected in this slider and pass it to the parent component
+    this.props.updateSelectedId ? this.props.updateSelectedId(id) : null
+    this.setState({selected_id: id})
+  }
+  getSelectedData() {
+    var data_list = this.state.selected_id ? 
+      this.props.slide_data.filter(
+        function(obj) {
+          return obj.Id == this.state.selected_id
+        }.bind(this)
+      ) : null
+
+    console.log(data_list)
+
+    if (data_list && data_list.length > 1)
+      throw `Multiple show records found for id ${this.state.selected_id}`
+
+    return data_list && data_list.length == 1 ? data_list[0] : null
   }
   render() {
     var settings = {
@@ -102,14 +123,14 @@ class ContentSlider extends React.Component {
               function(obj){
                 var props = {
                   ...obj,
-                  updateSelectedShowId: this.updateSelectedShowId.bind(this),
-                  selected: this.state.selected_show_id == obj.Id
+                  updateSelectedId: this.updateSelectedId.bind(this),
+                  selected: this.state.selected_id == obj.Id
                 }
                 return <VideoSlide {...props} />
               }.bind(this)
             )}
           </ HidiveSlider>
-          <VideoSlideDropdown data={this.getSelectedShowData()} />
+          <VideoSlideDropdown data={this.getSelectedData()} />
         </div>
       : <span />
     )
@@ -136,7 +157,7 @@ class VideoSlide extends React.Component {
   }
   selectShow(id) {
     this.setState({selected: true})
-    this.props.updateSelectedShowId ? this.props.updateSelectedShowId(id) : null
+    this.props.updateSelectedId ? this.props.updateSelectedId(id) : null
   }
   render() {
     var hover_class = this.state.hover ? " fadeIn" : "";
@@ -159,8 +180,8 @@ class VideoSlide extends React.Component {
           <img src={this.props.MasterArtUrl} className="img-responsive animated fadeIn" />
         </div>
       </div>
-      )
-    }
+    )
+  }
 }
 
 
@@ -178,9 +199,7 @@ class VideoSlideDropdown extends React.Component {
       this.setState({ data: nextProps.data }, this.showMoreInfo.bind(this, this.props.data));  
   }
   showMoreInfo(prevData) {
-    // if (this.state.data && !prevData) {
-    //   expandSection(this.moreInfo.current)
-    // } 
+    // need to enable animations
   }
   showSubscribeModal() {
     alert("TODO")
@@ -198,8 +217,8 @@ class VideoSlideDropdown extends React.Component {
           <span className="closeBtn fa fa-times"></span>
         </div>
         <div className="details" style={{opacity: 1}}>
-          <div className="display-table">
-            <div className="title-text">
+          <div>
+            <div className="title-text" style={{position: 'relative', width: '100%'}}>
               <div className="text-container" style={{opacity: 1, marginLeft: '0px'}}>
                 <h1><a href="/tv/girls-last-tour">{data.Name}</a></h1>
                 <h2>Season 1</h2>
@@ -215,9 +234,11 @@ class VideoSlideDropdown extends React.Component {
                     <span className="btn-text visible-xs"> (+)</span>
                   </button>
                 </div>
-                <p className="hidden-xs">In a future where most of humanity has perished, two girls explore the ruins of civilization, looking for food and fuel. With Chito behind the wheel and Yuuri handling gun duties, they try to salvage what’s left of their post-apocalyptic world.</p>
+                { data.LongSynopsis ? 
+                  <p className="hidden-xs">{data.LongSynopsis}</p>
+                  : null }
                 <ul className="list-unstyled details" style={{fontSize: '12px'}}>
-                  <li className="hidden-xs">Original Premiere: 10/5/2017 6:00:00 PM</li>
+                  { data.FirstPremiereDate ? <li className="hidden-xs">Original Premiere: {formatDateTime(new Date(data.FirstPremiereDate))}</li> : null }
                   <li>
                     Versions: <span className="comma-list">
                       <span>Broadcast</span>
@@ -236,13 +257,19 @@ class VideoSlideDropdown extends React.Component {
                       <span>English</span>
                     </span>
                   </li>
+                  { data.Rating ? 
+                  <li>
+                    Rating: <span className="comma-list">
+                      <span>{data.Rating}</span>
+                    </span>
+                  </li> : null}
                   <li className="hidden-xs">Genres: Drama, Science Fiction</li>
                 </ul>
               </div>
-              <div className="table-cell title-img" style={{backgroundImg: `url(https:${data.KeyArtUrl})`}}>
-                <div className="player activated">
+              <div className="title-img" style={{backgroundImage: `url(https:${data.KeyArtUrl})`, float: 'right'}}>
+                <div className='player activated'>
                   <a href={data.KeyArtUrl} className="free-title-window">
-                    <i className="fa fa-play-circle"></i>
+                    <i className="fa fa-play-circle" style={{fontSize: '5em !important'}}></i>
                   </a>
                 </div>
               </div>

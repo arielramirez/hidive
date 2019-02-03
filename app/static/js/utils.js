@@ -30,6 +30,7 @@ function getCookie( name ) {
 }
 
 // Animation code adapted from https://css-tricks.com/using-css-transitions-auto-dimensions/
+
 function collapseSection(element) {
     console.log(element)
     // get the height of the element's inner content, regardless of its actual size
@@ -62,6 +63,8 @@ function collapseSection(element) {
     element.setAttribute('data-collapsed', 'true');
   }
 
+
+// Animation code adapted from https://css-tricks.com/using-css-transitions-auto-dimensions/
   function expandSection(element) {
     // get the height of the element's inner content, regardless of its actual size
     var sectionHeight = element.scrollHeight;
@@ -80,4 +83,16 @@ function collapseSection(element) {
     
     // mark the section as "currently not collapsed"
     element.setAttribute('data-collapsed', 'false');
+  }
+  
+  // Adapted from https://stackoverflow.com/questions/25275696/javascript-format-date-time
+  function formatDateTime(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return date.getMonth()+1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
   }

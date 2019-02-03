@@ -3932,12 +3932,12 @@ footer {
     }
 
         .window .title-img .player a .glyphicon {
-            font-size: 5em !important;
+            font-size: 5em;
             line-height: 1em;
         }
 
         .window .title-img .player a .fa {
-            font-size: 2em !important;
+            font-size: 5em;
             line-height: 1em;
             vertical-align: middle;
         }
