@@ -5,10 +5,10 @@ Written by Ariel Ramirez. Custom style changes needed for additional animations 
 
 /** TRANSITIONS AND ANIMATIONS **/
 .collapsible {
-  -webkit-transition: all 1s ease-in-out;
-  -moz-transition: all 1s ease-in-out;
-  -o-transition: all 1s ease-in-out;
-  transition: all 1s ease-in-out;
+  -webkit-transition: height 1s ease-in-out;
+  -moz-transition: height 1s ease-in-out;
+  -o-transition: height 1s ease-in-out;
+  transition: height 1s ease-in-out;
   position: relative;
 }
 

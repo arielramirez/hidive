@@ -40,11 +40,11 @@ export default class HomepageVideoSliders extends React.Component {
   }
 }
 
-
 class VideoSlider extends React.Component {
   constructor(props) {
     super(props);
     this.num_slides = 5
+    this.slider = React.createRef()
     this.state = {
       selected_id: null,
       selected_row: false
@@ -57,11 +57,13 @@ class VideoSlider extends React.Component {
   }
   updateSelectedId(id) {
     // update this, then check if a slide was selected in this slider and pass it to the parent component
-    this.setState({selected_id: id, selected_row: true},
+    this.setState({selected_id: id, selected_row: !!id},
       function(id) {
         this.props.updateSelectedId ? this.props.updateSelectedId(id) : null
+        if(this.state.selected_row) {
+          this.slider.current.scrollIntoView({ behavior: 'smooth', block: 'start'})
+        }
       }.bind(this, id))
-    
   }
   afterChangeHook(current) {
     //if this slider is currently the active one and the slide changes, update the open slide to the current one
@@ -95,24 +97,28 @@ class VideoSlider extends React.Component {
       settings.className += ' hide-duplicate-slides'
     }
     return (
-      this.props.slide_data ? 
-        <div>
-          <HidiveSlider settings={settings} afterChangeHook={this.afterChangeHook.bind(this)}>
-            {this.props.slide_data.map(
-              function(obj){
-                var props = {
-                  ...obj,
-                  updateSelectedId: this.updateSelectedId.bind(this),
-                  selected: this.state.selected_row && this.state.selected_id == obj.Id,
-                  key: obj.Id
-                }
-                return <VideoSlide {...props} />
-              }.bind(this)
-            )}
-          </ HidiveSlider>
-          <VideoSlideDropdown data={this.state.selected_row ? this.getSelectedData() : null} />
-        </div>
-      : <span />
+      <div ref={this.slider}>
+      {this.props.slide_data ? 
+          (
+          <div>
+            <HidiveSlider settings={settings} afterChangeHook={this.afterChangeHook.bind(this)}>
+              {this.props.slide_data.map(
+                function(obj){
+                  var props = {
+                    ...obj,
+                    updateSelectedId: this.updateSelectedId.bind(this),
+                    selected: this.state.selected_row && this.state.selected_id == obj.Id,
+                    key: obj.Id
+                  }
+                  return <VideoSlide {...props} />
+                }.bind(this)
+                )}
+            </ HidiveSlider>
+            <VideoSlideDropdown data={this.state.selected_row ? this.getSelectedData() : null} onClose={this.updateSelectedId.bind(this, null)} />
+            <div className="clearfix" />
+          </div>)
+        : null }
+      </div>
     )
   }
 }
@@ -171,29 +177,27 @@ class VideoSlideDropdown extends React.Component {
     this.moreInfo = React.createRef()
     this.state = {
       data: this.props.data,
-      expanded: false,
       register_modal: false
     }
   }
   componentWillReceiveProps(nextProps) {
     if (this.props.data != nextProps.data)
-      this.setState({ data: nextProps.data }, this.showMoreInfo.bind(this, this.props.data));  
-  }
-  showMoreInfo(prevData) {
-    // need to enable animations
+      this.setState({ data: nextProps.data });  
   }
   toggleRegisterModal() {
     this.setState({register_modal: !this.state.register_modal})
   }
+  hideSection() {
+    this.props.onClose ? this.props.onClose() : null;
+    setState({data: null})
+  }
   render() {
     var data=this.state.data
 
-    var collapsed = this.state.data
-
     return (      
       data ? (
-      <div className="window collapsible  animated fadeIn" data-collapsed={true} ref={this.moreInfo} style={{display: 'block'}}> {/* start at 0 to intialize collapsed for animation */}
-        <div className="closeWin" onClick={collapseSection.bind(this.moreInfo.current)}>
+      <div className="window collapsible animated fadeIn" ref={this.moreInfo} style={{display: 'block'}}>
+        <div className="closeWin" style={{zIndex: 16}} onClick={this.hideSection.bind(this)}>
           <span className="closeBtn fa fa-times"></span>
         </div>
         <div className="details" style={{opacity: 1}}>

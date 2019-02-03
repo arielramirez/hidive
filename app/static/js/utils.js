@@ -32,6 +32,7 @@ function getCookie( name ) {
 // Animation code adapted from https://css-tricks.com/using-css-transitions-auto-dimensions/
 
 function collapseSection(element) {
+    console.log(element)
     // get the height of the element's inner content, regardless of its actual size
     var sectionHeight = element.scrollHeight;
     
@@ -51,6 +52,7 @@ function collapseSection(element) {
       // on the next frame (as soon as the previous style change has taken effect),
       // have the element transition to height: 0
       requestAnimationFrame(function() {
+          console.log('collapsing!')
         element.style.height = 0 + 'px';
       });
     });
