@@ -22,7 +22,6 @@ export default class RegisterModal extends React.Component {
     this.props.onClose ? this.props.onClose() : null
   }
   render() {
-    var title = (<h2 className="text-orange">Question? We're here to help!</h2>)
     var body = (
       <div>
         <div className="clearfix">
@@ -49,6 +48,6 @@ export default class RegisterModal extends React.Component {
         </div>
       </div>
     )
-    return <Modal title={title} body={body} open={this.state.open}  id={'RegisterModal'} onClose={this.close.bind(this)} />;
+    return <Modal body={body} open={this.state.open}  id={'RegisterModal'} onClose={this.close.bind(this)} />;
   }
 }
