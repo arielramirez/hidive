@@ -11,6 +11,13 @@
 - Footer
 - Contact Us Modal with Form
 
+## Notable Tools
+- Docker
+- Flask
+- React
+- [react-slick](https://github.com/akiran/react-slick)
+- [react-select](https://github.com/JedWatson/react-select)
+
 ## Features Missing from Implementation
 #### Data Not Available
   - Badges on content sliders
@@ -41,6 +48,6 @@
   - Security audit
   - ARIA support
 
-##Implementation Notes
+## Implementation Notes
 - There were  characters in the JSON data substituting the apostrophes. I manually converted them to apostrophes.
 - Realized that modals were using bootstrap after implementing from scratch in react. Did not redesign or convert to bootstrap (out of time)
