@@ -32,9 +32,7 @@ You can view this site at http://34.233.253.243/
 - Search icon in search area is a down chevron instead of search icon
 - Register Modal width is too wide
 - Search bar does not have collapse animation
-- Video Slider Dropdown animation on expand
-- Video Slider Dropdown animation on collapse
-- Video Slider Dropdown animation switch to different show
+- Video Slider Dropdown animation on expand, collapse and switching shows
 - Modal animations on open/close
 
 #### Next steps if asked to continue. . .
