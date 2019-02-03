@@ -29,7 +29,7 @@ You can view this site at http://34.233.253.243/
   - Content Slider View All links for sliders with more than 15 slides
 
 #### Missing Bells and Whistles - Out of time
-- Search icon in search area is a down chevron instad of search icon
+- Search icon in search area is a down chevron instead of search icon
 - Register Modal width is too wide
 - Search bar does not have collapse animation
 - Video Slider Dropdown animation on expand
