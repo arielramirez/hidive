@@ -243,7 +243,7 @@ class TopNavSearch extends React.Component {
       }
     };
 
-    //this isn't working for some reason
+    //TODO: this isn't working - still shows default icon
     const DropdownIndicator = function(props){
       return (
         <components.DropdownIndicator {...props}>
@@ -254,7 +254,6 @@ class TopNavSearch extends React.Component {
       );
     }.bind(this);
     
-
     return (
       <div ref={this.searchBar}>
         <div id='topSearch' style={{ top: '-5px'}} className={"search-expandable " + (this.state.expanded ? "search-expanded" : "search-collapsed")}  >

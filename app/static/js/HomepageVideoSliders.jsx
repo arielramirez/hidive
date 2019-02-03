@@ -152,7 +152,7 @@ class VideoSlide extends React.Component {
         <div className="hitbox" onMouseEnter={this.hoverOn.bind(this)} onMouseLeave={this.hoverOff.bind(this)}>
           <div className={"arrow_box" + (this.state.selected ? " green" : "")}> {/* <---- GREEN IS A TERRIBLE CLASS NAME FOR APPLYING/REMOVING CLICK EFFECTS!!!! And the border is blue, not green... Techdebt anyone? Only using this because the css is already built in hidive.css*/}
             <div className={"player" + hover_class}>
-              <a href={this.props.MasterArtUrl} target="_blank"  className="fa fa-play-circle" style={{fontSize: '3em', lineHeight: '1em'}}></a>
+              <a href={this.props.MasterArtUrl} target="_blank"  className="glyphicon glyphicon-play-circle text-center" style={{fontSize: '3em', lineHeight: '1em'}}></a>
             </div>
             <div className={"synopsis" + hover_class}>
               <h3 title={this.props.Name}>{this.props.Name}</h3>
@@ -169,7 +169,6 @@ class VideoSlide extends React.Component {
     )
   }
 }
-
 
 class VideoSlideDropdown extends React.Component {  
   constructor(props) {
@@ -189,7 +188,7 @@ class VideoSlideDropdown extends React.Component {
   }
   hideSection() {
     this.props.onClose ? this.props.onClose() : null;
-    setState({data: null})
+    this.setState({data: null})
   }
   render() {
     var data=this.state.data
@@ -247,7 +246,7 @@ class VideoSlideDropdown extends React.Component {
               <div className="title-img" style={{backgroundImage: `url(https:${data.KeyArtUrl})`, float: 'right'}}>
                 <div className='player activated'>
                   <a href={data.KeyArtUrl} className="free-title-window">
-                    <i className="fa fa-play-circle" style={{fontSize: '5em !important'}}></i>
+                    <span className="glyphicon glyphicon-play-circle text-center"></span>
                   </a>
                 </div>
               </div>

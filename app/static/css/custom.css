@@ -51,10 +51,6 @@ Written by Ariel Ramirez. Custom style changes needed for additional animations 
   right: -5px;
 }
 
-.carousel .slider-link {
-  width: 1140px !important;
-}
-
 .fa-icon-shadow {
   text-shadow: 3px 3px 8px #272634;
 }

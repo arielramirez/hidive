@@ -27,15 +27,11 @@
   - Content Slider View All links for sliders with more than 15 slides
 
 #### Missing Bells and Whistles - Out of time
-- Currently only uses FontAwesome icons, did not use any glyphicons
 - Search icon in search area is a down chevron instad of search icon
 - Search bar does not have collapse animation
-- Featured Slider is not responsive
-- Video Content slider does not align browser with row is selected
-- Video Content Dropdown missing needs X to allow collapse
 - Video Slider Dropdown animation on expand
 - Video Slider Dropdown animation on collapse
-- Video Slider Dropdown animation switch to new show
+- Video Slider Dropdown animation switch to different show
 - Modal animations on open/close
 
 #### Next steps if asked to continue. . .

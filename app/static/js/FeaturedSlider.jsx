@@ -9,7 +9,8 @@ export default class FeaturedSlider extends React.Component {
       autoplaySpeed: 4000,
       className: "carousel tour bottom-gutter-15",
       slidesToShow: 1,
-      slidesToScroll: 1
+      slidesToScroll: 1,
+      
     };
 
     var slide_data = [
@@ -47,8 +48,8 @@ export default class FeaturedSlider extends React.Component {
 class FeaturedSlide extends React.Component {
   render() {
     return (
-      <a className="slider-link" style={{width: '100%', maxWidth: '1140px', display: 'block'}} href={this.props.link}>
-       <img src={this.props.img_url} style={{width: '100%', maxWidth: '1140px', display: 'block'}} />
+      <a className="slider-link" style={{width: '100%', display: 'block'}} href={this.props.link}>
+       <img src={this.props.img_url} style={{width: '100%', display: 'block'}} />
       </a>)
   }
 }
