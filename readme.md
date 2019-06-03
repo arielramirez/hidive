@@ -1,5 +1,14 @@
-## Hosted Page
-You can view this site at http://34.233.253.243/
+## Goal
+
+Give a sample data set, use the data to replicate the HIDIVE Home Page to the best of your ability to showcase your skills.
+
+Deploy the source code and final page to a hosted environment if possible. Provide the source code (and URLs if any) before your interview and we will discuss.
+
+Hidive home page: https://www.hidive.com/
+
+## Completed Work
+
+You can view the recreation at http://34.233.253.243/
 
 ## Features Implemented
 - Top Nav
@@ -20,11 +29,9 @@ You can view this site at http://34.233.253.243/
 - [react-slick](https://github.com/akiran/react-slick)
 - [react-select](https://github.com/JedWatson/react-select)
 
-
-
 ## Implementation Notes
 - There were  characters in the JSON data substituting the apostrophes. I manually converted them to apostrophes.
-- I realized that modals were using bootstrap after implementing them from scratch in react. I choose not to re-implement them in the interest of time. All features hidive.com features were retained except for the transition effects.
+- I realized that modals were using bootstrap after implementing them from scratch in react. I choose not to re-implement them in the interest of time. All hidive.com features were retained except for the transition effects.
 - This was my first time working with Docker. A decent amount of time was spent figuring it out and setting up the server.
 - I have limited experience with CSS transitions and they were a pain point here. I implemented a few, but did not have time to finish all of them.
 
