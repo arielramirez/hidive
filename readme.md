@@ -8,7 +8,7 @@ Hidive home page: https://www.hidive.com/
 
 ## Completed Work
 
-You can view the recreation at http://34.233.253.243/
+The recreation is available at http://34.233.253.243/
 
 ## Features Implemented
 - Top Nav
