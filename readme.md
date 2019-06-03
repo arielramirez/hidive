@@ -2,9 +2,7 @@
 
 Give a sample data set, use the data to replicate the HIDIVE Home Page to the best of your ability to showcase your skills.
 
-Deploy the source code and final page to a hosted environment if possible. Provide the source code (and URLs if any) before your interview and we will discuss.
-
-Hidive home page: https://www.hidive.com/
+Deploy the source code and final page to a hosted environment if possible. Link to the HIDIVE home page: https://www.hidive.com/
 
 ## Completed Work
 
