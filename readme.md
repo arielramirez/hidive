@@ -1,6 +1,6 @@
 ## Goal
 
-Give a sample data set, use the data to replicate the HIDIVE Home Page to the best of your ability to showcase your skills.
+Given a sample data set in JSON, use the data to replicate the HIDIVE Home Page to the best of your ability to showcase your skills.
 
 Deploy the source code and final page to a hosted environment if possible. Link to the HIDIVE home page: https://www.hidive.com/
 
