@@ -6,7 +6,7 @@ Deploy the source code and final page to a hosted environment if possible. Link 
 
 ## Completed Work
 
-The recreation is available at http://34.233.253.243/
+[View the finished webpage.](http://34.233.253.243/) - Experiencing technical issue with AWS. Fixed site should be up shortly.
 
 ## Features Implemented
 - Top Nav
