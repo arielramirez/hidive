@@ -1,7 +1,0 @@
-# Use an official Python runtime as a parent image
-FROM tiangolo/uwsgi-nginx-flask:python3.7
-
-# copy over our app code
-COPY ./app /app
-
-ENV STATIC_PATH /app/static
